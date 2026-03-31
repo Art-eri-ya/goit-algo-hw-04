@@ -4,11 +4,14 @@ from colorama import Fore, Style
 
 
 def display_tree(path, indent=""):
+    items = sorted(path.iterdir(), key=lambda x: (x.is_file(), x.name.lower()))
+    
     for el in path.iterdir():
         if el.is_dir():
-            print(Fore.BLUE + el.name + Style.RESET_ALL)
+            print(f"{indent}{Fore.BLUE}{el.name}/{Style.RESET_ALL}")
+            display_tree(el, indent + "    ")
         if el.is_file():
-            print(Fore.GREEN + el.name + Style.RESET_ALL)
+            print(f"{indent}{Fore.GREEN}{el.name}{Style.RESET_ALL}")
 
 def main():
     if len(sys.argv) < 2:
